@@ -1,0 +1,745 @@
+---
+title: "Moving to a World beyond p < .05"
+subtitle: "<h2>An introduction to the philosophy of statistics</h2><br>"
+date: "Slides available at https://github.com/lnalborczyk/intro_phil_stat_2022"
+author: "Ladislas Nalborczyk"
+institute: "LPC, LNC, CNRS, Aix-Marseille Univ"
+from: markdown+emoji
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    transition: none # fade
+    background-transition: none # fade
+    transition-speed: default # default, fast, or slow
+    slide-number: c/t
+    show-slide-number: all
+    preview-links: true
+    self-contained: true # when sharing slides
+    # chalkboard: true
+    csl: bib/apa7.csl
+    incremental: true
+    # logo: ../../files/cover.png
+    footer: "Ladislas Nalborczyk"
+    # width: 1200 # defaults to 1050
+    # height: 900 # default to 700
+    margin: 0.15 # defaults to 0.1
+    scrollable: true
+    hide-inactive-cursor: true
+    pdf-separate-fragments: false
+    highlight-style: zenburn
+    code-copy: true
+    code-link: false
+    code-fold: false
+    code-summary: "Voir le code"
+    numbers: true
+    progress: false
+title-slide-attributes:
+    data-background-color: "#1c5253"
+bibliography: bib/references.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+## Program :wave: :wave:
+
+```{r setup, eval = TRUE, include = FALSE, cache = FALSE}
+library(countdown)
+library(tidyverse)
+library(knitr)
+
+# setting up knitr options
+knitr::opts_chunk$set(
+  cache = TRUE, echo = TRUE,
+  warning = FALSE, message = FALSE,
+  fig.align = "center", dev = "svg"
+  )
+
+# setting up our ggplot theme
+theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
+```
+
+::: {.nonincremental}
+
+- Introduction to the philosophy of statistics: Theories, models, evidence, inference
+    - Theoretical and statistical models
+    - Statistical evidence and inference
+  
+- Correct and incorrect interpretations of common hypothesis tests
+    - P-values and confidence intervals
+    - Bayes factors
+    - Problems induced by the mindless use of statistics
+
+- How to move forward: A model comparison (and model criticism) approach
+    - Statistical modelling and model comparison
+    - A principled Bayesian workflow
+
+:::
+
+# Introduction to the philosophy of statistics (why do we need statistics in the first place?)
+
+## Scientific theories
+
+A scientific theory can be defined as **a set of logical propositions that posits causal relationships between observable phenomena**. 
+
+. . .
+
+- Initially broad and abstract: "Every object responds to the force of gravity in the same way".
+- Then, concrete (testable) predictions: "The falling speed of two objects A and B should be the same, all other things being equal".
+
+. . .
+
+These logical propositions are originally abstract and broad (e.g., "every object responds to the force of gravity in the same way") but lead to concrete and specific predictions that are empirically testable (e.g., "the falling speed of two objects A and B should be the same, all other things being equal").
+
+## Scientific theories
+
+The concept of a scientific theory is not a unitary concept though. As an example, [Meehl (1986)](https://meehl.umn.edu/sites/meehl.umn.edu/files/files/128socscientistsdontunderstand.pdf) lists three kinds of theories:
+
+- **Functional-dynamic theories** which relate "states to states or events to events". For instance, we say that when one variable changes, certain other variables change in such and such ways.
+- **Structural-compositional theories** in which the main idea is to explain what something is composed of, or what kind of parts it has, and how they are put together.
+- **Evolutionary theories** which are about the history and/or development of things (e.g., Darwin's theory, Wegener's theory of continental drift, the fall of Rome, etc.).
+
+## First problem: We can not confirm theories
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+According to [Campbell (1990)](https://www.tandfonline.com/doi/abs/10.1207/s15327965pli0102_2), the (intuitive) logical argument of science has the following form:
+
+::: {.nonincremental}
+
+- If Newton's theory A is true, then it should be observed that the tides have period B, the path of Mars shape C, the trajectory of a cannonball form D, etc.
+- Observation confirms B, C, and D.
+- Therefore Newton's theory A is "true".
+
+:::
+
+However, this argument is a fallacious argument known as the **affirmation of the consequent**. The invalidity comes from the existence of the cross-hatched area, that is, other possible explanations for B, C, and D being observed (figure from [Campbell, 1990](https://www.tandfonline.com/doi/abs/10.1207/s15327965pli0102_2)).
+
+:::
+
+::: {.column width="50%"}
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/campbell.jpeg")
+```
+
+:::
+
+::::
+
+## Second problem: We can not (strictly) falsify theories
+
+We can not confirm theories, but maybe we can at least think of a way of disproving them? According to Popper's view, a theory can be considered as falsifiable if it can be shown to be false. But what does it mean for a theory to be false?
+
+. . .
+
+Here we should note that the falsifiability of early Popper concerns the problem of demarcation (i.e., what is science and what is pseudoscience), and defines pseudosciences as composed of non falsifiable theories (i.e., theories that do not allow the possibility of being disproved).
+
+. . .
+
+But when it comes to describe how science works (descriptive purposes) or to know how scientific enquiries should be lead (prescriptive purposes), science is usually not described by the falsification standard, as Popper himself recognised and argued. In fact, deductive falsification is impossible in nearly every scientific context ([McElreath, 2016](https://xcelab.net/rm/statistical-rethinking/)).
+
+. . .
+
+In the next sections, we discuss some of the reasons that prevent (almost) any scientific theory to be strictly falsified (in a logical sense), namely: i) the distinction between theoretical and statistical models ii) the problem of measurement iii) the problem of continuous hypotheses, and iv) the Duhem-Quine problem.
+
+## 1) Theoretical and statistical models
+
+A statistical model is a device that connect theories to data. It can be defined as an instantiation of a theory as a set of probabilistic statements ([Rouder, Morey, & Wagenmakers, 2016](https://online.ucpress.edu/collabra/article/2/1/6/112677/The-Interplay-between-Subjectivity-Statistical)).
+
+. . .
+
+```{r echo = FALSE, fig.align = "center", out.width = "33%"}
+knitr::include_graphics("figures/mcelreath.png")
+```
+
+Theoretical models and statistical models are usually not equivalent as many different theoretical models can correspond to the same probabilistic description. Conversely, different probabilistic descriptions can be derived from the same theoretical model. In other words, there is no one-to-one mapping between the two worlds, which render the induction from the statistical model to the theoretical model quite tricky (figure from [McElreath, 2020](https://xcelab.net/rm/statistical-rethinking/)).
+
+## 1) Theoretical and statistical inference
+
+Causal and inferential relations between substantive theory, statistical hypothesis, and observational data (figure from [Meehl, 1990](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.135.6444&rep=rep1&type=pdf)).
+
+```{r echo = FALSE, fig.align = "center", out.width = "75%"}
+knitr::include_graphics("figures/meehl.png")
+```
+
+. . .
+
+Another problem yet, as stressed by Paul Meehl, is that while statistical methodology usually deals with the issue of assessing the validity of statistical hypotheses from observations, it does not address, and maybe can not address, the issue of assessing the validity of substantive theories from the corroboration or disconfirmation of statistical hypotheses.
+
+## 2) Measurement error
+
+The logic of falsification is pretty simple and rests on the power of the modus tollens. This argument (whose exposition, for some reason, usually involves swans) can be presented as follows:
+
+- If my theory $T$ is right, then I should observe these data $D$
+- I observe data that are not those I predicted $\neg D$
+- Therefore, my theory is wrong $\neg T$
+
+. . .
+
+This argument is perfectly valid and works well for logical statements (statements that are either true or false). However, the first problem that arises when we try to apply this reasoning to the "real world" is the problem of observation error: observations are prone to error, especially at the boundaries of knowledge ([McElreath, 2016](https://xcelab.net/rm/statistical-rethinking/)).
+
+## 2) Measurement error
+
+.pull-left[
+According to Einstein, neutrinos can not travel faster than the speed of light. Thus, any observation of faster-than-light neutrinos would act as a strong falsifier of Einstein's special relativity. In 2011 however, a large team of respected physicists announced the detection of faster-than-light neutrinos (see the Wikipedia article: https://en.wikipedia.org/wiki/Faster-than-light_neutrino_anomaly).
+
+What was the reaction of the scientific community? The dominant reaction was not to claim Einstein's theory to be falsified but was instead: "How did this team mess up the measurement?" ([McElreath, 2016](https://xcelab.net/rm/statistical-rethinking/)).
+]
+
+.pull-right[
+```{r echo = FALSE, fig.align = "center", out.width = "80%"}
+knitr::include_graphics("figures/cable.png")
+```
+]
+
+. . .
+
+And they were right to suspect something was wrong with the measurement: A fiber optic cable was attached improperly, and a clock oscillator was ticking too fast...
+
+## 3) Probabilistic hypotheses
+
+Another problem arises from a misapplication of deductive syllogistic reasoning (a misapplication of the modus tollens). The problem (the "permanent illusion", as put by [Gigerenzer, 1993](https://media.pluto.psy.uconn.edu/Gigerenzer%20superego%20ego%20id.pdf)) is that most scientific hypotheses are not really of the kind "all swans are white" but rather of the form:
+
+- Ninety percent of swans are white.
+- If my hypothesis is correct, we should probably not observe a black swan.
+
+. . .
+
+Given this hypothesis, what can we conclude if we observe a black swan? Not much. To understand why, let's translate it first to a more common statement in psychological research (from [Cohen, 1994](http://www.iro.umontreal.ca/~dift3913/cours/papers/cohen1994_The_earth_is_round.pdf)):
+
+- If the null hypothesis is true, then these data are highly unlikely.
+- These data have occurred.
+- Therefore, the null hypothesis is highly unlikely.
+
+. . .
+
+But because of the probabilistic premise (i.e., the "highly unlikely") this conclusion is invalid. Why?
+
+## 3) Probabilistic hypotheses
+
+Consider the following argument (still from [Cohen, 1994](http://www.iro.umontreal.ca/~dift3913/cours/papers/cohen1994_The_earth_is_round.pdf), borrowed from [Pollard & Richardson, 1987](https://psycnet.apa.org/record/1987-30223-001)):
+
+- If a person is an American, he is probably not a member of Congress.
+- This person is a member of Congress.
+- Therefore, he is probably not an American.
+
+. . .
+
+This conclusion is not sensible (the argument is invalid), because it fails to consider the alternative to the premise, which is that if this person were not an American, the probability of being a member of Congress would be 0.
+
+. . .
+
+This is formally exactly the same as:
+
+- If the null hypothesis is true, then these data are highly unlikely.
+- These data have occurred.
+- Therefore, the null hypothesis is highly unlikely.
+
+. . .
+
+Which is as much invalid as the previous argument, because i) the premise (the hypothesis) is probabilistic/continuous rather than discrete/logical and ii) because it fails to consider the probability of the alternative. Thus, even without measurement/observation error, this problem would prevent us from applying the modus tollens to our hypothesis, thus preventing any possibility of strict falsification.
+
+## 4) The underdetermination problem
+
+Again another problem is known as the [Duhem–Quine thesis/problem](https://en.wikipedia.org/wiki/Duhem–Quine_thesis) (aka the *underdetermination problem*). In practice, when a substantive theory $T$ happens to be tested, some hidden assumptions, such as auxiliary theories about the instruments we use, are also put under examination ([Meehl, 1978](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.200.7648&rep=rep1&type=pdf); [1990](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.135.6444&rep=rep1&type=pdf); [1997](https://meehl.umn.edu/sites/meehl.umn.edu/files/files/169problemisepistemology.pdf)).
+
+. . .
+
+When we test a theory predicting that "if $O_{1}$" (some manipulation), "then $O_{2}$" (some observation), what we actually mean is that we should observe this relation, **if and only if** all of the above (i.e., the auxiliary theories, the instrument theories, the particulars, etc.) are true.
+
+## 4) The underdetermination problem
+
+Thus, the logical structure of an empirical test of a theory $T$ can be described as the following conceptual formula ([Meehl, 1978](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.200.7648&rep=rep1&type=pdf); [1990](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.135.6444&rep=rep1&type=pdf); [1997](https://meehl.umn.edu/sites/meehl.umn.edu/files/files/169problemisepistemology.pdf)):
+
+$$(T \land A_{t} \land C_{p} \land A_{i} \land C_{n}) \to (O_{1} \supset O_{2})$$
+
+where the $\land$ are conjunctions ("and"), the arrow $\to$ denotes deduction ("follows that ..."), and the horseshoe $\supset$ is the material conditional ("If $O_{1}$, Then $O_{2}$"). $A_{t}$ is a conjunction of auxiliary theories, $Cp$ is a *ceteribus paribus* clause (i.e., we assume there is no other factor exerting an appreciable influence that could obfuscate the main effect of interest), $A_{i}$ is an auxiliary theory regarding instruments, and $C_{n}$ is a statement about experimentally realised conditions (i.e., we assume that there is no systematic error/noise in the experimental settings).
+
+## 4) The underdetermination problem
+
+$$(T \land A_{t} \land C_{p} \land A_{i} \land C_{n}) \to (O_{1} \supset O_{2})$$
+
+However, although the modus tollens is a valid figure of the implicative syllogism for logical statements (e.g., "all swans are black"), the neatness of Popper's classic falsifiability concept is fuzzed up by the acknowledgement of the actual form of an empirical test. Obtaining falsificative evidence during an empirical test does not only falsify the substantive theory $T$, but it does falsify all the left-side of the above statement. In other words, what we have achieved by our laboratory or correlational "falsification" is a falsification of the combined claims $T \land A_{t} \land C_{p} \land A_{i} \land C_{n}$, which is probably not what we had in mind when we did the experiment ([Meehl, 1990](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.135.6444&rep=rep1&type=pdf)).
+
+. . .
+
+To sum up, failing to observe a predicted outcome does not necessarily mean that the theory itself is wrong, but rather that the conjunction of the theory and the underlying assumptions at hand are invalid ([Lakatos, 1978](https://www.cambridge.org/core/books/methodology-of-scientific-research-programmes/8DBCEFE34A59BAD3D393FB958A4DC5FC); [Meehl, 1978](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.200.7648&rep=rep1&type=pdf); [1990](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.135.6444&rep=rep1&type=pdf)).
+
+## Consequences
+
+Falsification in science is almost always consensual, not logical ([McElreath, 2020](https://xcelab.net/rm/statistical-rethinking/)). A theoretical claim is considered to be falsified only when multiple lines of converging evidence have been obtained, by independent teams of researchers, and usually after several years or decades of critical discussion. The "falsification of a theory" then appears as a social result, issued from the community of scientists, and (almost) never as a deductive falsification.
+
+. . .
+
+How can we accumulate **evidence** in favour of or against a theory? That's were statistics comes into play. There are several philosophical frameworks for statistical inference, which differ by their assumptions and by their definition of what counts as *evidence* in favour or against a theory.
+
+# Correct and incorrect interpretations of common hypothesis tests: p-values and confidence intervals
+
+## Null Hypothesis Significance Testing (NHST)
+
+Let's say we are interested in height differences between women and men...
+
+```{r eval = TRUE, echo = TRUE}
+set.seed(19) # to get reproducible results
+men <- rnorm(n = 100, mean = 175, sd = 10) # 100 men heights
+women <- rnorm(n = 100, mean = 170, sd = 10) # 100 women heights
+```
+
+. . .
+
+```{r eval = TRUE, echo = TRUE}
+t.test(x = men, y = women)
+```
+
+## {background-iframe="https://embed.polleverywhere.com/multiple_choice_polls/ok3TmpBIp0fmbxGJDS7rr?controls=none&short_poll=true"}
+
+# None of these definitions is true... 🥺🥺
+
+## Null Hypothesis Significance Testing (NHST)
+
+We are going to simulate t-values computed on samples generated under the assumption of no difference between women and men (the null hypothesis $\mathcal{H}_{0}$).
+
+```{r eval = TRUE, echo = TRUE}
+nsims <- 1e4 # number of simulations
+t <- rep(x = NA, times = nsims) # initialising an empty vector
+
+for (i in 1:nsims) {
+    
+    men2 <- rnorm(n = 100, mean = 170, sd = 10)
+    women2 <- rnorm(n = 100, mean = 170, sd = 10)
+    t[i] <- t.test(x = men2, y = women2)$statistic
+    
+}
+```
+
+. . .
+
+Or without for loops.
+
+```{r eval = TRUE, echo = TRUE}
+t <- replicate(n = nsims, expr = t.test(x = rnorm(100, 170, 10), y = rnorm(100, 170, 10) )$statistic)
+```
+
+## Null Hypothesis Significance Testing (NHST)
+
+```{r eval = TRUE, echo = TRUE, fig.align = "center", out.width = "40%"}
+data.frame(t = t) %>%
+    ggplot(aes(x = t) ) +
+    geom_histogram()
+```
+
+## Null Hypothesis Significance Testing (NHST)
+
+```{r eval = TRUE, echo = TRUE, out.width = "40%"}
+data.frame(t = c(-5, 5) ) %>%
+    ggplot(aes(x = t) ) +
+    stat_function(fun = dt, args = list(df = t.test(men, women)$parameter), size = 1.5) +
+    ylab("Probability density")
+```
+
+## Null Hypothesis Significance Testing (NHST)
+
+```{r eval = TRUE, echo = TRUE}
+alpha <- .05 # significance threshold (alpha)
+abs(qt(alpha / 2, df = t.test(x = men, y = women)$parameter) ) # two-sided critical t-value
+```
+
+```{r eval = TRUE, echo = FALSE, out.width = "40%"}
+data.frame(t = c(-5, 5) ) %>%
+    ggplot(aes(x = t) ) +
+    stat_function(fun = dt, args = list(df = t.test(men, women)$parameter), size = 1.5) +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(-5, qt(0.025, df = t.test(men, women)$parameter) ),
+        geom = "area", alpha = 0.5
+        ) +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(qt(0.975, df = t.test(men, women)$parameter), 5),
+        geom = "area", alpha = 0.5
+        ) +
+    ylab("Probability density")
+```
+
+## Null Hypothesis Significance Testing (NHST)
+
+```{r eval = TRUE, echo = TRUE}
+tobs <- t.test(x = men, y = women)$statistic # observed t-value
+tobs %>% as.numeric
+```
+
+```{r eval = TRUE, echo = FALSE, out.width = "40%"}
+data.frame(t = c(-5, 5) ) %>%
+    ggplot(aes(x = t) ) +
+    stat_function(fun = dt, args = list(df = t.test(men, women)$parameter), size = 1.5) +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(-5, qt(0.025, df = t.test(men, women)$parameter) ),
+        geom = "area", alpha = 0.5
+            ) +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(qt(0.975, df = t.test(men, women)$parameter), 5),
+        geom = "area", alpha = 0.5
+        ) +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(-5, - tobs),
+        geom = "area") +
+    stat_function(
+        fun = dt, args = list(df = t.test(men, women)$parameter),
+        xlim = c(tobs, 5),
+        geom = "area") +
+    ylab("Probability density")
+```
+
+## P-values
+
+A p-value is simply a tail area (an integral) computed from the distribution of test statistics under (given) the null hypothesis. It gives the probability of observing the data we observed *or more extreme data*, **given that the null hypothesis is true** ([Wagenmakers et al., 2007](https://link.springer.com/article/10.3758/BF03194105)).
+
+$$p[\mathbf{t}(\mathbf{x}^{\text{rep}} ; \mathcal{H}_{0}) \geq t(x)]$$
+
+. . .
+
+```{r eval = TRUE, echo = TRUE}
+t.test(x = men, y = women)$p.value
+```
+
+. . .
+
+```{r eval = TRUE, echo = TRUE}
+tvalue <- abs(t.test(x = men, y = women)$statistic)
+df <- t.test(x = men, y = women)$parameter
+2 * integrate(f = dt, lower = tvalue, upper = Inf, df = df)$value
+```
+
+## Fisher versus Neyman & Pearson
+
+```{r echo = FALSE, fig.align = "center", out.width = "33%"}
+knitr::include_graphics("figures/fisher.jpeg")
+```
+
+.pull-left[
+According to Fisher, the p-value is thought to measure the strength of evidence against the null hypothesis: the lower the p-value, the stronger the evidence against the null hypothesis. But we know that p-values at best *correlate* (in a loose meaning) with evidence (e.g., see [Wagenmakers, 2007](http://www.ejwagenmakers.com/2007/pValueProblems.pdf)).
+
+The Fisherian continuous interpretation of p-values has many problems (cf. next slide) and has been widely criticised.
+]
+
+--
+
+.pull-right[
+Neyman & Pearson used p-values and significance thresholds as a way of **controlling error rates in the long run**. In this perspective, we don't interpret the p-value, we only "classify" results as *significant* or *non-significant*. This strict procedure allows keeping error rates at a fixed level (given that the null hypothesis is true, see this [blogpost](https://lucklab.ucdavis.edu/blog/2018/4/19/why-i-lost-faith-in-p-values)).
+
+However, this view also has serious problems. One of the biggest problem being the *domain problem* (see [Trafimow & Earp, 2017](https://www.sciencedirect.com/science/article/pii/S0732118X16301076?via%3Dihub)).
+]
+
+## Logic, frequentism, and probabilistic reasoning
+
+The modus tollens is one of the strongest rule of inference in logic. It works perfectly well in science when we deal with hypotheses of the following form: *If $\mathcal{H}_{0}$ is true, then we should not observe $x$. We observed $x$. Then, $\mathcal{H}_{0}$ is false*.
+
+. . .
+
+BUT, most of the time, we deal with *continuous*, *probabilistic* hypotheses...
+
+The Fisherian inference (induction) is of the form: *If $\mathcal{H}_{0}$ is true, then we should PROBABLY not observe $x$. We observed $x$. Then, $\mathcal{H}_{0}$ is PROBABLY false*.
+
+. . .
+
+However, as we have seen previously, this argument is invalid. The modus tollens does not apply to probabilistic statements (e.g., [Pollard & Richardson, 1987](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.505.9968&rep=rep1&type=pdf); [Rouder, Morey, Verhagen, Province, & Wagenmakers, 2016](http://www.ejwagenmakers.com/2016/RouderEtAl2016FreeLunch.pdf)).
+
+## Interpreting confidence intervals
+
+Confidence intervals are basically regions of significance. Thus, they have to be interpreted as cautiously as p-values, and are submitted to the same flaws.
+
+. . .
+
+A 95% confidence interval **does not mean** that there is a 95% probability that the interval contains the population value of the parameter (remember the *modus tollens* fallacy).
+
+. . .
+
+The only correct interpretation is to think about it in terms of *coverage proportion* (see next slide and [this blogpost](http://rpsychologist.com/d3/CI/)).
+
+**A 95% confidence interval represents a statement about the procedure**, not about the parameter. It means that, in the long run, 95% of the confidence intervals we could compute (in an exact replication of the experiment) would contain the population value of the parameter. But we can not say anything about the particular confidence interval we computed in this particular experiment...
+
+## {background-iframe="https://rpsychologist.com/d3/CI/"}
+
+## Preliminary summary (statistics is hard)
+
+Frequentist statistics (e.g., p-values and confidence intervals) make sense under the frequentist interpretation of probability: they refer to **long-run frequencies**.
+
+. . .
+
+P-values are simply tail areas in probability distributions. It means that they are conditional on some distribution. But it also means that computing a p-value is a generic statistical procedure, it's not inextricable from the null hypothesis (e.g., see [Bayesian p-values](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.310.145&rep=rep1&type=pdf)).
+
+. . .
+
+Confidence intervals are basically regions of significance. Thus, they are prone to the very same limits as p-values.
+
+# Correct and incorrect interpretations of common hypothesis tests: Bayes factors
+
+## Bayes factors
+
+Instead of testing only one hypothesis (the null hypothesis), Bayes factors allow comparing two hypotheses. For instance, let's say we are comparing two models:
+
+- $\mathcal{H}_{0}: \mu_{1} = \mu_{2} \rightarrow \delta = 0$
+- $\mathcal{H}_{1}: \mu_{1} \neq \mu_{2} \rightarrow \delta \neq 0$
+
+. . .
+
+$$\underbrace{\dfrac{p(\mathcal{H}_{0}|D)}{p(\mathcal{H}_{1}|D)}}_\text{posterior odds} = \underbrace{\dfrac{p(D|\mathcal{H}_{0})}{p(D|\mathcal{H}_{1})}}_\text{Bayes factor} \times \underbrace{\dfrac{p(\mathcal{H}_{0})}{p(\mathcal{H}_{1})}}_\text{prior odds}$$
+
+. . .
+
+$$\text{evidence}\ = p(D | \mathcal{H}) = \int p(\theta | \mathcal{H}) p(D | \theta, \mathcal{H}) \text{d}\theta$$
+
+The *evidence* in favour of a model corresponds to the *marginal likelihood* of a model. In other words, it is an averaged *likelihood* weighted by the prior predictions of the model, which makes the Bayes factor a kind of Bayesian likelihood ratio.
+
+## What does a Bayes factor look like?
+
+Let's say we want to estimate the bias $\theta$ of a coin. For convenience, we can write our predictions as two [Beta-Binomial models](http://www.barelysignificant.com/post/ppc/):
+
+$$
+\begin{align}
+\mathcal{M_{1}} : y_{i} &\sim \mathrm{Binomial}(n, \theta) \\
+\theta &\sim \mathrm{Beta}(6, 10) \\
+\end{align}
+$$
+
+$$
+\begin{align}
+\mathcal{M_{2}} : y_{i} &\sim \mathrm{Binomial}(n, \theta) \\
+\theta &\sim \mathrm{Beta}(20, 12) \\
+\end{align}
+$$
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 5, out.width = "60%"}
+data.frame(x = seq(from = 0, to = 1, length.out = 1e2) ) %>%
+    mutate(M1 = dbeta(x, 6, 10), M2 = dbeta(x, 20, 12) ) %>%
+    gather(prior, value, M1:M2) %>%
+    ggplot(aes(x = x, y = value, fill = prior) ) +
+    geom_area(alpha = 0.75, position = "identity") +
+    scale_fill_manual(values = c("#016392", "#c72e29") ) +
+    xlab(expression(paste("Probability of heads ", theta) ) ) +
+    ylab("Probability density")
+```
+
+## What does a Bayes factor look like?
+
+```{r echo = FALSE, fig.align = "center", out.width = "50%"}
+knitr::include_graphics("figures/bf.gif")
+```
+
+## Bayes factors are the new p-values...
+
+Be careful not to interpret Bayes factors as *posterior odds*... Bayes factors indicate how much we should update our *prior odds*, in the light of new incoming data. They **do not tell us what is the most probable hypothesis**, given the data (unless the prior odds are 1:1).
+
+. . .
+
+Let's take another example:
+
+- $\mathcal{H}_{0}$: there is no such thing as precognition
+- $\mathcal{H}_{1}$: precognition does really exist
+
+. . .
+
+We run an experiment and observe a $\text{BF}_{10} = 27$. What are the posterior odds in favour of $\mathcal{H}_{1}$?
+
+. . .
+
+$$\underbrace{\dfrac{p(\mathcal{H}_{1}|D)}{p(\mathcal{H}_{0}|D)}}_\text{posterior odds} = \underbrace{\dfrac{27}{1}}_\text{Bayes factor} \times \underbrace{\dfrac{1}{1000}}_\text{prior odds} = \dfrac{27}{1000} = 0.027$$
+
+# Problems induced by the mindless use of statistics
+
+## Problems induced by the mindless use of statistics
+
+Pressure to produce (e.g., publish), together with widespread misunderstanding of basic concepts in (philosophy of) statistics, have practical/dramatic consequences on the published literature (Figure from [Data colada](http://datacolada.org/41)).
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/phacking.png")
+```
+
+## Problems induced by the mindless use of statistics
+
+Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates (cf. the "garden of forking paths" from [Gelman & Loken, 2013](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)).
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "50%"}
+knitr::include_graphics("figures/publication_bias_rr.png")
+```
+
+# The ATOM guidelines
+
+## Do not say "statistically significant"
+
+In 2019, **The American Statistician** published a special issue on *Moving to a World Beyond "p<.05"*, with the intention to provide new recommendations for users of statistics (e.g., researchers, policy makers, journalists). This issue comprises 43 original papers aiming to provide new guidelines and practical alternatives to the "mindless" use of statistics. In the accompanying editorial, [Wasserstein et al. (2019)](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913) provide a first practical recommendation.
+
+. . .
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+We conclude, based on our review of the articles in this special issue and the broader literature, that it is time to stop using the term "statistically significant" entirely. Nor should variants such as "significantly different", "p < 0.05," and "nonsignificant" survive, whether expressed in words, by asterisks in a table, or in some other way.
+
+.tr[
+— Wassertein, R. L., Schirm, A. L., & Lazar, N. A. (2019). Moving to a World Beyond "p<0.05". The American Statistician, 73, 1-19.
+]]
+
+## ATOM guidelines
+
+Then, they summarise their practical recommendations in the form of the **ATOM** guidelines:
+
+- **Accept uncertainty**: we must "countenance uncertainty in all statistical conclusions, seeking ways to quantify, visualize, and interpret the potential for error" ([Calin-Jageman & Cumming, 2019](https://www.tandfonline.com/doi/full/10.1080/00031305.2018.1518266)).
+- **Be thoughtful**: we clearly distinguish between confirmatory (preregistered) and exploratory (non-preregistered) statistical analyses. We routinely evaluate the *validity* of the statistical model and we are suspicious of statistical *defaults*.
+- **Be open**: we try to be exhaustive in the way we report our analyses and we beware of shortcuts than could hinder important information to the reader.
+- **Be modest**: we recognise that there is no unique "true statistical model" and we discuss the limitations of our analyses and conclusions. We also recognise that scientific inference is much broader than statistical inference and we try not to conclude anything from a single study without the warranted uncertainty.
+
+# How to move forward: A model comparison (and model criticism) approach
+
+## Common statistical tests are model comparisons
+
+.pull-left[
+
+First insight: Common statistical "tests" (e.g., t-test, ANOVA) can be restated as comparisons of regression models.
+
+Instead of (or in supplement to) binary conclusions, we also consider how sounds are the models we are comparing, given the phenomenon at hand.
+
+]
+
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "66%", fig.link = "https://www.taylorfrancis.com/books/mono/10.4324/9781315744131/data-analysis-charles-judd-gary-mcclelland-carey-ryan"}
+knitr::include_graphics("figures/judd.jpg")
+```
+]
+
+## Model comparison and out-of-sample predictive accuracy
+
+.pull-left[
+
+Second insight: Instead of comparing unrealistic models (e.g., the "null hypothesis" and the unspecified/default "alternative hypothesis" models), let's compare interesting models, embodying theoretical hypotheses of interest.
+
+General steps of the model selection approach usually consist in establishing a set of $R$ relevant models, ranking these models (and attributing them weights) using an information criterion, and choosing the best model from the model set to make an inference from this best model. Alternatively, one can make inference from a weighted average of the models' predictions (aka model averaging or multimodel inference).
+
+]
+    
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "60%", fig.link = "https://link.springer.com/book/10.1007/b97636"}
+knitr::include_graphics("figures/burnham.jpg")
+```
+]
+
+## Model comparison and out-of-sample predictive accuracy
+
+Hirotugu Akaike noticed that the negative log-likelihood of a model + 2 times its number of parameters was approximately equal to the **out-of-sample deviance** of a model...
+
+$$\text{AIC} = \underbrace{-2\log(\mathcal{L}(\hat{\theta}|\text{data}))}_\text{in-sample deviance} + 2K$$
+
+**In-sample deviance**: how bad is a model to explain the current dataset (the dataset that we used to fit the model)
+
+**Out-of-sample deviance**: how bad is a model to explain a **future** dataset issued from the same data generating process (the same population)
+
+## Philosophical oecumenism: Statistical toolbox
+
+Different statistical tools rest on different philosophical frameworks and aim to answer different questions.
+
+. . .
+
+**Quantifying the relative evidence for a hypothesis/model**
+
+&#8627; Use Bayes factors or likelihood ratios (do not use p-values for this)
+
+. . .
+
+**Making decisions while controlling error rates in the long-run**
+
+&#8627; Use NHST & p-values (à la Neyman-Pearson) (do not use Bayes factors for this)
+
+. . .
+
+**Comparing the (out-of-sample) predictive abilities of models**
+
+&#8627; Use information criteria (e.g., AIC, WAIC)
+
+. . .
+
+## Towards a principled workflow: Statistical rethinking
+
+.pull-left[
+
+Making use of the toolbox and pushing further the statistical modelling and model comparison approach. The focus is on building models, validating them (both against prior knowledge and new observations), comparing them, and using them for prediction and/or inference.
+
+A full course on Bayesian statistical (thinking and) modelling is available freely on Youtube, see the Github repository for more details: https://github.com/rmcelreath/stat_rethinking_2022.
+
+]
+    
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "66%", fig.link = "https://xcelab.net/rm/statistical-rethinking/"}
+knitr::include_graphics("figures/rethinking.jpg")
+```
+]
+
+## Applying this to empirical data in cognitive sciences
+
+.pull-left[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%", fig.link = "https://arxiv.org/abs/2011.01808"}
+knitr::include_graphics("figures/bayesian_workflow.png")
+```
+]
+    
+.pull-right[
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%", fig.link = "https://arxiv.org/abs/1904.12765"}
+knitr::include_graphics("figures/cogsci_bayesian_workflow.png")
+```
+]
+
+## Applying this to empirical data in cognitive sciences
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "50%"}
+knitr::include_graphics("figures/workflow.png")
+```
+
+## A brief summary
+
+Sensible data analysis is not a linear process. A typical workflow involves the following steps:
+
+- Think hard about a (or several) plausible data-generating process(es)
+- Think hard about the available prior knowledge and encode it into your model(s)
+- Validate these assumptions using simulation (e.g., prior predictive checking)
+- If deemed appropriate, fit the model(s) and update prior knowledge using the Bayesian machinery
+- Assess the validity of the model(s) using simulation (e.g., posterior predictive checking)
+- Compare various interesting and competing models
+- Make inference about interesting quantities (using as many statistical indexes as needed)
+- This is *not* a linear process, feedback loops are often needed between these steps
+
+## Further resources
+
+The special issue on "Statistical Inference in the 21st Century: A World Beyond p < 0.05": <https://www.tandfonline.com/toc/utas20/73/sup1>.
+
+Everything is fucked: The syllabus, <https://hardsci.wordpress.com/2016/08/11/everything-is-fucked-the-syllabus/>.
+
+Some examples of ATOMised reporting of statistical modelling (from my own work):
+<https://pubs.asha.org/doi/abs/10.1044/2018_JSLHR-S-18-0006>, <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0233282>, <https://journals.sagepub.com/doi/abs/10.1177/0956797619900336>.
+
+Introduction to the Meehlian Corroboration-Verisimilitude theory of science: <https://www.barelysignificant.com/post/corroboration1/> and <https://www.barelysignificant.com/post/corroboration2/>.
+
+The materials of my doctoral course on Bayesian statistical modelling (in French): <https://www.barelysignificant.com/IMSB2022/>.
+
+## Take-home messages
+
+### Don'ts
+
+- Do not say "statistically significant".
+- Do not dichotomise or trichotomise statistical results.
+
+. . .
+
+### Dos
+
+- Read, digest, and teach some philosophy of statistics and statistical modelling (vs. testing).
+- Accept uncertainty. Be thoughtful, open, and modest.
+
+. . .
+
+<br>
+
+&nbsp; `r icons::fontawesome("twitter")` [lnalborczyk](https://twitter.com/lnalborczyk) &nbsp; `r icons::fontawesome("github")` [lnalborczyk](https://github.com/lnalborczyk) &nbsp; `r icons::academicons("osf")` [https://osf.io/ba8xt](https://osf.io/ba8xt) &nbsp; `r icons::fontawesome("globe")` [www.barelysignificant.com](https://www.barelysignificant.com)
+
+## Références {.refs}
