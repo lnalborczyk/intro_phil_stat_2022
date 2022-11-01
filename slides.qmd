@@ -537,7 +537,39 @@ knitr::include_graphics("figures/bf.gif")
 
 # Problems induced by the mindless use of statistics
 
-## Problems induced by the mindless use of statistics
+## Corroborating impossible claims
+
+Blah blah...
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/bem.png")
+```
+
+## Replicability (and reproducibility) issues
+
+Blah blah...
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/replicability.png")
+```
+
+## Questionable research practises
+
+Blah blah...
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/qrp.png")
+```
+
+## Questionable research practises
+
+Blah blah...
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/simmons1.png")
+```
+
+## P-hacking
 
 Pressure to produce (e.g., publish), together with widespread misunderstanding of basic concepts in (philosophy of) statistics, have practical/dramatic consequences on the published literature (Figure from [Data colada](http://datacolada.org/41)).
 
@@ -545,7 +577,7 @@ Pressure to produce (e.g., publish), together with widespread misunderstanding o
 knitr::include_graphics("figures/phacking.png")
 ```
 
-## Problems induced by the mindless use of statistics
+## Publication bias
 
 Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates [cf. the "garden of forking paths" from @gelman].
 
@@ -557,7 +589,7 @@ knitr::include_graphics("figures/publication_bias_rr.png")
 
 ## Do not say "statistically significant"
 
-In 2019, **The American Statistician** published a special issue on *Moving to a World Beyond "p\<.05"*, with the intention to provide new recommendations for users of statistics (e.g., researchers, policy makers, journalists). This issue comprises 43 original papers aiming to provide new guidelines and practical alternatives to the "mindless" use of statistics. In the accompanying editorial, @wasserstein2019 provide a first practical recommendation.
+In 2019, The American Statistician published a special issue on *Moving to a World Beyond "p<.05"*, with the intention to provide new recommendations for users of statistics (e.g., researchers, policy makers, journalists). This issue comprises 43 original papers aiming to provide new guidelines and practical alternatives to the "mindless" use of statistics. In the accompanying editorial, @wasserstein2019 provide a first practical recommendation.
 
 . . .
 
@@ -610,7 +642,9 @@ knitr::include_graphics("figures/burnham.jpg")
 
 Hirotugu Akaike noticed that the negative log-likelihood of a model + 2 times its number of parameters was approximately equal to the **out-of-sample deviance** of a model...
 
-$$\text{AIC} = \underbrace{-2\log(\mathcal{L}(\hat{\theta}|\text{data}))}_\text{in-sample deviance} + 2K$$ . . .
+$$\text{AIC} = \underbrace{-2\log(\mathcal{L}(\hat{\theta}|\text{data}))}_\text{in-sample deviance} + 2K$$
+
+. . .
 
 **In-sample deviance**: how bad is a model to explain the current dataset (the dataset that we used to fit the model).
 
