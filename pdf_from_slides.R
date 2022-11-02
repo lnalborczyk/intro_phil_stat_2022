@@ -3,7 +3,7 @@
 # ---------------------------------------------------
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last updated on November 1, 2022
+# Last updated on November 3, 2022
 ###############################################
 
 library(pagedown)

@@ -91,7 +91,7 @@ The concept of a scientific theory is not a unitary concept though. As an exampl
 
 -   **Functional-dynamic theories** which relate "states to states or events to events". For instance, we say that when one variable changes, certain other variables change in such and such ways.
 -   **Structural-compositional theories** in which the main idea is to explain what something is composed of, or what kind of parts it has, and how they are put together.
--   **Evolutionary theories** which are about the history and/or development of things (e.g., Darwin's theory, Wegener's theory of continental drift, the fall of Rome, etc.).
+-   **Evolutionary theories** which are about the history and/or development of things (e.g., Darwin's theory, Wegener's theory of continental drift, the fall of Rome, etc).
 
 ## First problem: We can not confirm theories
 
@@ -234,7 +234,7 @@ Again another problem is known as the [Duhem--Quine thesis/problem](https://en.w
 
 . . .
 
-When we test a theory predicting that "if $O_{1}$" (some manipulation), "then $O_{2}$" (some observation), what we actually mean is that we should observe this relation, **if and only if** all of the above (i.e., the auxiliary theories, the instrument theories, the particulars, etc.) are true.
+When we test a theory predicting that "if $O_{1}$" (some manipulation), "then $O_{2}$" (some observation), what we actually mean is that we should observe this relation, **if and only if** all of the above (i.e., the auxiliary theories, the instrument theories, the particulars, etc) are true.
 
 ## 4) The underdetermination problem
 
@@ -502,7 +502,7 @@ $$\underbrace{\dfrac{p(\mathcal{H}_{1}|D)}{p(\mathcal{H}_{0}|D)}}_\text{posterio
 
 ## What does a Bayes factor look like?
 
-Let's say we want to estimate the bias $\theta$ of a coin. For convenience, we can write our predictions as two [Beta-Binomial models](http://www.barelysignificant.com/post/ppc/):
+Let's say we want to estimate the bias $\theta$ of a coin. For convenience, we can write our predictions as two [Beta-Binomial models](http://www.barelysignificant.com/post/ppc/).
 
 $$
 \begin{align}
@@ -539,7 +539,7 @@ knitr::include_graphics("figures/bf.gif")
 
 ## Corroborating impossible claims
 
-Blah blah...
+In 2011, the prestigious Journal of Personality and Social Psychology published this paper written by Daryl Bem, reporting the results of nine experiments, showing evidence in favour of the existence of precognition in humans.
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/bem.png")
@@ -547,15 +547,13 @@ knitr::include_graphics("figures/bem.png")
 
 ## Replicability (and reproducibility) issues
 
-Blah blah...
+This, amongst other things, prompted an era a (healthy) methodological scepticism, which resulted in a through re-evaluation of classical findings from Psychology and experimental sciences overall. The average replication rate in Psychology was estimated to be around 30%.
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/replicability.png")
 ```
 
-## Questionable research practises
-
-Blah blah...
+## Scientific cycle and questionable research practises
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/qrp.png")
@@ -563,7 +561,7 @@ knitr::include_graphics("figures/qrp.png")
 
 ## Questionable research practises
 
-Blah blah...
+Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates [see also the "garden of forking paths" from @gelman].
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/simmons1.png")
@@ -577,9 +575,17 @@ Pressure to produce (e.g., publish), together with widespread misunderstanding o
 knitr::include_graphics("figures/phacking.png")
 ```
 
-## Publication bias
+## Registered reports: Reducing publication bias
 
-Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates [cf. the "garden of forking paths" from @gelman].
+Publication bias is defined as the selective publication of findings based on the obtained p-value (or another statistical index). How can we avoid this biased reporting? A simple idea is not to base the accept/reject decision on a paper on the statistical significance of the results, but rather on the theoretical relevance and methodological rigour of the study (figure from <https://www.cos.io/initiatives/registered-reports>).
+
+<br>
+ 
+```{r eval = TRUE, echo = FALSE, fig.align = "center"}
+knitr::include_graphics("figures/rr.png")
+```
+
+## Registered reports: Reducing publication bias
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "50%"}
 knitr::include_graphics("figures/publication_bias_rr.png")
@@ -716,14 +722,14 @@ knitr::include_graphics("figures/workflow.png")
 
 Sensible data analysis is not a linear process. A typical workflow involves the following steps:
 
--   Think hard about a (or several) plausible data-generating process(es)
--   Think hard about the available prior knowledge and encode it into your model(s)
--   Validate these assumptions using simulation (e.g., prior predictive checking)
--   If deemed appropriate, fit the model(s) and update prior knowledge using the Bayesian machinery
--   Assess the validity of the model(s) using simulation (e.g., posterior predictive checking)
--   Compare various interesting and competing models
--   Make inference about interesting quantities (using as many statistical indexes as needed)
--   This is *not* a linear process, feedback loops are often needed between these steps
+-   Think hard about a (or several) plausible data-generating process(es).
+-   Think hard about the available prior knowledge and encode it into your model(s).
+-   Validate these assumptions using simulation (e.g., prior predictive checking).
+-   If deemed appropriate, fit the model(s) and update prior knowledge using the Bayesian machinery.
+-   Assess the validity of the model(s) using simulation (e.g., posterior predictive checking).
+-   Compare various interesting and competing models.
+-   Make inference about interesting quantities (using as many statistical indexes as needed).
+-   This is *not* a linear process, feedback loops are often needed between these steps.
 
 ## Further resources
 
