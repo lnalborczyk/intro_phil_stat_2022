@@ -56,9 +56,19 @@ $presentation-h3-font-size: 1.5em !default;
   //transform: translate(-50%, -50%);
 }
 
-.reveal .title-slide h2 {
+.reveal p.subtitle {
+  font-size: 175%;
   text-align: center;
+}
+
+.reveal p.author {
   font-size: 150%;
+  text-align: center;
+}
+
+.reveal h1 {
+  //font-size: 150%;
+  text-align: center;
 }
 
 // https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/revealjs/plugins/support/footer.css

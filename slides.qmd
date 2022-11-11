@@ -1,6 +1,6 @@
 ---
 title: "Moving to a World beyond p < .05"
-subtitle: "<h2>An introduction to the philosophy of statistics</h2><br>"
+subtitle: "An introduction to the philosophy of statistics"
 date: "Slides available at https://github.com/lnalborczyk/intro_phil_stat_2022"
 author: "Ladislas Nalborczyk"
 institute: "LPC, LNC, CNRS, Aix-Marseille Univ"
@@ -70,7 +70,7 @@ theme_set(theme_bw(base_size = 16, base_family = "Open Sans") )
     -   A principled Bayesian workflow
 :::
 
-# Introduction to the philosophy of statistics (why do we need statistics in the first place?)
+# Introduction to the philosophy of statistics (why we need statistics in the first place)
 
 ## Scientific theories
 
@@ -157,11 +157,11 @@ Another problem yet, as stressed by Paul Meehl, is that while statistical method
 
 ## 2) Measurement error
 
-The logic of falsification is pretty simple and rests on the power of the modus tollens. This argument (whose exposition, for some reason, usually involves swans) can be presented as follows:
+The logic of falsification is pretty simple and rests on the power of the [modus tollens](https://fr.wikipedia.org/wiki/Modus_tollens). This argument (whose exposition, for some reason, usually involves swans) can be presented as follows:
 
--   If my theory $T$ is right, then I should observe these data $D$
--   I observe data that are not those I predicted $\neg D$
--   Therefore, my theory is wrong $\neg T$
+-   If my theory $T$ is right, then I should observe these data $D$.
+-   I observe data that are not those I predicted $\neg D$.
+-   Therefore, my theory is wrong $\neg T$.
 
 . . .
 
@@ -242,7 +242,7 @@ Thus, the logical structure of an empirical test of a theory $T$ can be describe
 
 $$(T \land A_{t} \land C_{p} \land A_{i} \land C_{n}) \to (O_{1} \supset O_{2})$$
 
-where the $\land$ are conjunctions ("and"), the arrow $\to$ denotes deduction ("follows that ..."), and the horseshoe $\supset$ is the material conditional ("If $O_{1}$, Then $O_{2}$"). $A_{t}$ is a conjunction of auxiliary theories, $Cp$ is a "ceteribus paribus" clause (i.e., we assume there is no other factor exerting an appreciable influence that could obfuscate the main effect of interest), $A_{i}$ is an auxiliary theory regarding instruments, and $C_{n}$ is a statement about experimentally realised conditions (i.e., we assume that there is no systematic error/noise in the experimental settings).
+where the $\land$ are conjunctions ("and"), the arrow $\to$ denotes deduction ("follows that ..."), and the horseshoe $\supset$ is the material conditional ("If $O_{1}$, Then $O_{2}$"). $A_{t}$ is a conjunction of auxiliary theories, $C_{p}$ is a "ceteribus paribus" clause (i.e., we assume there is no other factor exerting an appreciable influence that could obfuscate the main effect of interest), $A_{i}$ is an auxiliary theory regarding instruments, and $C_{n}$ is a statement about experimentally realised conditions (i.e., we assume that there is no systematic error/noise in the experimental settings).
 
 ## 4) The underdetermination problem
 
@@ -256,7 +256,7 @@ To sum up, failing to observe a predicted outcome does not necessarily mean that
 
 ## Consequences
 
-Falsification in science is almost always consensual, not logical [@mcelreath2020a]. A theoretical claim is considered to be falsified only when multiple lines of converging evidence have been obtained, by independent teams of researchers, and usually after several years or decades of critical discussion. The "falsification of a theory" then appears as a social result, issued from the community of scientists, and (almost) never as a deductive falsification.
+Falsification in science is almost always consensual, not logical [@mcelreath2020]. A theoretical claim is considered to be falsified only when multiple lines of converging evidence have been obtained, by independent teams of researchers, and usually after several years or decades of critical discussion. The "falsification of a theory" then appears as a social result, issued from the community of scientists, and (almost) never as a deductive falsification.
 
 . . .
 
@@ -499,6 +499,7 @@ We run an experiment and observe a $\text{BF}_{10} = 27$. What are the posterior
 . . .
 
 $$\underbrace{\dfrac{p(\mathcal{H}_{1}|D)}{p(\mathcal{H}_{0}|D)}}_\text{posterior odds} = \underbrace{\dfrac{27}{1}}_\text{Bayes factor} \times \underbrace{\dfrac{1}{1000}}_\text{prior odds} = \dfrac{27}{1000} = 0.027$$
+<!--
 
 ## What does a Bayes factor look like?
 
@@ -535,6 +536,8 @@ data.frame(x = seq(from = 0, to = 1, length.out = 1e2) ) %>%
 knitr::include_graphics("figures/bf.gif")
 ```
 
+-->
+
 # Problems induced by the mindless use of statistics
 
 ## Corroborating impossible claims
@@ -547,7 +550,7 @@ knitr::include_graphics("figures/bem.png")
 
 ## Replicability (and reproducibility) issues
 
-This, amongst other things, prompted an era a (healthy) methodological scepticism, which resulted in a through re-evaluation of classical findings from Psychology and experimental sciences overall. The average replication rate in Psychology was estimated to be around 30%.
+This, amongst other things, prompted an era of (healthy) methodological scepticism, which resulted in a through re-evaluation of classical findings from Psychology and experimental sciences overall. The average replication rate in Psychology was estimated to be around 30%.
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/replicability.png")
@@ -577,7 +580,7 @@ knitr::include_graphics("figures/phacking.png")
 
 ## Registered reports: Reducing publication bias
 
-Publication bias is defined as the selective publication of findings based on the obtained p-value (or another statistical index). How can we avoid this biased reporting? A simple idea is not to base the accept/reject decision on a paper on the statistical significance of the results, but rather on the theoretical relevance and methodological rigour of the study (figure from <https://www.cos.io/initiatives/registered-reports>).
+Publication bias is defined as the selective publication of findings based on the obtained p-value (or another statistical index). How can we avoid this biased reporting? A simple idea is not to base the accept/reject decision on the statistical significance of the results, but rather on the theoretical relevance and methodological rigour of the study (figure from <https://www.cos.io/initiatives/registered-reports>).
 
 <br>
  
@@ -744,6 +747,8 @@ Introduction to the Meehlian Corroboration-Verisimilitude theory of science: <ht
 The materials of my doctoral course on Bayesian statistical modelling (in French): <https://www.barelysignificant.com/IMSB2022/>.
 
 ## Take-home messages
+
+<br>
 
 ::: columns
 ::: {.column width="50%"}
