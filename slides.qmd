@@ -206,7 +206,7 @@ But because of the probabilistic premise (i.e., the "highly unlikely") this conc
 
 ## 3) Probabilistic hypotheses
 
-Consider the following argument [@cohen1994; @pollard1987a]:
+Consider the following argument [@cohen1994; @pollard1987]:
 
 -   If a person is an American, he is probably not a member of Congress.
 -   This person is a member of Congress.
@@ -548,12 +548,12 @@ In 2011, the prestigious Journal of Personality and Social Psychology published 
 knitr::include_graphics("figures/bem.png")
 ```
 
-## Replicability (and reproducibility) issues
+## Questionable research practises
 
-This, amongst other things, prompted an era of (healthy) methodological scepticism, which resulted in a through re-evaluation of classical findings from Psychology and experimental sciences overall. The average replication rate in Psychology was estimated to be around 30%.
+Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates [see also the "garden of forking paths" from @gelman2013].
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
-knitr::include_graphics("figures/replicability.png")
+knitr::include_graphics("figures/simmons1.png")
 ```
 
 ## Scientific cycle and questionable research practises
@@ -562,20 +562,20 @@ knitr::include_graphics("figures/replicability.png")
 knitr::include_graphics("figures/qrp.png")
 ```
 
-## Questionable research practises
-
-Undisclosed flexibility in data collection, analysis, and interpretation dramatically increases the false positive rates [see also the "garden of forking paths" from @gelman].
-
-```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
-knitr::include_graphics("figures/simmons1.png")
-```
-
 ## P-hacking
 
 Pressure to produce (e.g., publish), together with widespread misunderstanding of basic concepts in (philosophy of) statistics, have practical/dramatic consequences on the published literature (Figure from [Data colada](http://datacolada.org/41)).
 
 ```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
 knitr::include_graphics("figures/phacking.png")
+```
+
+## Replicability (and reproducibility) issues
+
+This, amongst other things, prompted an era of (healthy) methodological scepticism, which resulted in a through re-evaluation of classical findings from Psychology and experimental sciences overall. The average replication rate in Psychology was estimated to be around 30%.
+
+```{r eval = TRUE, echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_graphics("figures/replicability.png")
 ```
 
 ## Registered reports: Reducing publication bias
@@ -598,7 +598,7 @@ knitr::include_graphics("figures/publication_bias_rr.png")
 
 ## Do not say "statistically significant"
 
-In 2019, The American Statistician published a special issue on *Moving to a World Beyond "p<.05"*, with the intention to provide new recommendations for users of statistics (e.g., researchers, policy makers, journalists). This issue comprises 43 original papers aiming to provide new guidelines and practical alternatives to the "mindless" use of statistics. In the accompanying editorial, @wasserstein2019 provide a first practical recommendation.
+In 2019, The American Statistician published a special issue on "Moving to a World Beyond *p*<.05", with the intention to provide new recommendations for users of statistics (e.g., researchers, policy makers, journalists). This issue comprises 43 original papers aiming to provide new guidelines and practical alternatives to the "mindless" use of statistics. In the accompanying editorial, @wasserstein2019 provide a first practical recommendation.
 
 . . .
 
